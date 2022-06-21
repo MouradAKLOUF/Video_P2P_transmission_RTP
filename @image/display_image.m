@@ -1,0 +1,6 @@
+function display_image(pic)
+% DISPLAY image
+stg = sprintf(...
+   'Size: %d, type: %s, psnr: %.2f, time_idx %.2f, start_encod: %.2f, end_decod: %.2f, decodable: %d, lost: %d \n',...
+   pic.size,pic.type,pic.psnr, pic.time_idx, pic.start_encod,pic.end_decod,pic.decodable,pic.lost );
+disp(stg)

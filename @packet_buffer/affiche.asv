@@ -1,0 +1,50 @@
+function [p] = affiche(b)
+
+if (nargin<1)
+   error('Wrong number of input arguments')
+end
+
+if (nargout<1)
+   error('Wrong number of output arguments')
+end
+
+if (class(b)~='packet_buffer')
+   error('First argument should be a buffer')
+end
+
+
+if (nargin==1)
+    % Extraction d'un paquet   
+    
+        p=b.buff(1);
+        b.buff(1:end-1) = b.buff(2:end);
+        b.buff(end) = packet();
+        b.size = b.size-1;
+        b.bit_size = b.bit_size - get(p,'size');
+        
+        if (b.size>0)
+           b.bits_to_send = get(b.buff(1),'size');
+        else
+           b.bits_to_send = 0;
+        end;
+    end
+else
+    % Extraction de bits et d'un certain nombre de paquets
+    p = [];
+    
+    while (bits>=b.bits_to_send && b.size>0)
+
+        [tmp,b] = extract(b);
+        bits = bits - b.bits_to_send;
+        p = [p,tmp];
+    end
+    
+    if (b.size>0)
+        b.bits_to_send = b.bits_to_send - max(bits,0);
+    end
+end
+    
+    
+    
+    
+    
